@@ -3,9 +3,9 @@ class CreateUsers < ActiveRecord::Migration[7.0]
     create_table :users do |t|
       t.text :first_name, null: false
       t.text :last_name, null: false
-      t.string :phone, unique: true
-      t.string :email, null: false, unique: true
-      t.string :username, null: false, unique: true
+      t.string :phone, index: { unique: true }
+      t.string :email, null: false, index: { unique: true }
+      t.string :username, null: false, index: { unique: true }
       t.string :bio
       t.string :avatar
 
