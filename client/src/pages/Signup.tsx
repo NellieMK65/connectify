@@ -1,4 +1,5 @@
 import {
+	Alert,
 	Avatar,
 	Box,
 	Container,
@@ -10,6 +11,7 @@ import {
 import LoadingButton from '@mui/lab/LoadingButton';
 import { FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useState } from 'react';
 
 const userSchema = Yup.object().shape({
 	first_name: Yup.string().required('First name is required'),
@@ -25,6 +27,8 @@ const userSchema = Yup.object().shape({
 });
 
 export const Signup = () => {
+	const [error, setError] = useState('');
+
 	const formik = useFormik({
 		initialValues: {
 			first_name: '',
@@ -35,17 +39,27 @@ export const Signup = () => {
 		},
 		validationSchema: userSchema,
 		onSubmit: async (values) => {
-			const response = await fetch('/users', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(values),
-			});
+			setError('');
+			try {
+				const response = await fetch('/users', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(values),
+				});
 
-			const data = await response.json();
+				const data = await response.json();
 
-			console.log(data);
+				if (data instanceof Array) {
+					// This means there are errors
+					setError(data[0]);
+				} else {
+					// success
+				}
+			} catch (error) {
+				console.log('Errors', error);
+			}
 		},
 	});
 
@@ -65,6 +79,7 @@ export const Signup = () => {
 				<Typography component="h1" variant="h5">
 					Sign up
 				</Typography>
+				{error && <Alert severity="error">{error}</Alert>}
 				<FormikProvider value={formik}>
 					<Box
 						component="form"
