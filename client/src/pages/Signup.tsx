@@ -24,6 +24,9 @@ const userSchema = Yup.object().shape({
 	email: Yup.string()
 		.email('Enter a valid email address')
 		.required('Email address is required'),
+	password: Yup.string()
+		.min(5, 'Password cannot be less than 5 characters')
+		.required('Password is required'),
 });
 
 export const Signup = () => {
@@ -36,6 +39,7 @@ export const Signup = () => {
 			username: '',
 			phone: '',
 			email: '',
+			password: '',
 		},
 		validationSchema: userSchema,
 		onSubmit: async (values) => {
@@ -183,6 +187,26 @@ export const Signup = () => {
 									helperText={
 										formik.touched.phone &&
 										formik.errors.phone
+									}
+								/>
+							</Grid>
+							<Grid item xs={12}>
+								<TextField
+									fullWidth
+									name="password"
+									label="Password"
+									id="password"
+									required
+									type="password"
+									onChange={formik.handleChange}
+									onBlur={formik.handleBlur}
+									error={
+										formik.touched.password &&
+										Boolean(formik.errors.password)
+									}
+									helperText={
+										formik.touched.password &&
+										formik.errors.password
 									}
 								/>
 							</Grid>

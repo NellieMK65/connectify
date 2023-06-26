@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show update destroy ]
+  wrap_parameters :user, include: %i[first_name last_name phone email username bio avatar password password_confirmation]
 
   # GET /users
   def index
@@ -19,7 +20,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: @user, status: :created, location: @user
+      render json: { user: @user }, status: :created, location: @user
     else
       render json: @user.errors.full_messages, status: :unprocessable_entity
     end
@@ -48,6 +49,7 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :phone, :email, :username, :bio, :avatar)
+    params.require(:user).permit(:first_name, :last_name, :phone, :email, :username, :bio, :avatar, :password,
+                                 :password_confirmation)
   end
 end
