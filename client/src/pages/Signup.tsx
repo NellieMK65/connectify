@@ -11,8 +11,8 @@ import {
 import LoadingButton from '@mui/lab/LoadingButton';
 import { FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context';
 
 const userSchema = Yup.object().shape({
@@ -33,8 +33,15 @@ const userSchema = Yup.object().shape({
 
 export const Signup = () => {
 	const [error, setError] = useState('');
+	const navigate = useNavigate();
 
-	const { login } = useContext(AuthContext);
+	const { isAuthenticated, login } = useContext(AuthContext);
+
+	useEffect(() => {
+		if (isAuthenticated) {
+			navigate('/');
+		}
+	}, [isAuthenticated]);
 
 	const formik = useFormik({
 		initialValues: {
