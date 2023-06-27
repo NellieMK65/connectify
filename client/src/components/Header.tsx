@@ -4,8 +4,11 @@ import {
 	Typography,
 	IconButton,
 	Link as MuiLink,
+	Stack,
 } from '@mui/material';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../context';
 
 interface HeaderProps {
 	sections: ReadonlyArray<{
@@ -17,6 +20,8 @@ interface HeaderProps {
 
 export const Header = (props: HeaderProps) => {
 	const { sections, title } = props;
+
+	const { isAuthenticated } = useContext(AuthContext);
 
 	return (
 		<>
@@ -33,11 +38,24 @@ export const Header = (props: HeaderProps) => {
 					{title}
 				</Typography>
 				<IconButton>{/* <SearchIcon /> */}</IconButton>
-				<Link to="/signup">
-					<Button variant="outlined" size="small">
-						Sign up
-					</Button>
-				</Link>
+				<Stack direction={'row'} spacing={1}>
+					{isAuthenticated ? (
+						<Button>Logout</Button>
+					) : (
+						<>
+							<Link to={'/login'}>
+								<Button variant="outlined" size="small">
+									Login
+								</Button>
+							</Link>
+							<Link to="/signup">
+								<Button variant="contained" size="small">
+									Sign up
+								</Button>
+							</Link>
+						</>
+					)}
+				</Stack>
 			</Toolbar>
 			<Toolbar
 				component="nav"

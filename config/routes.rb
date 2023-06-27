@@ -6,5 +6,5 @@ Rails.application.routes.draw do
   # root "articles#index"
 
   # /sessions
-  resources :sessions, only: [:index]
+  resources :sessions, only: [:create]
 end

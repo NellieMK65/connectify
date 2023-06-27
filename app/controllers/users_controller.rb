@@ -20,7 +20,9 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: { user: @user }, status: :created, location: @user
+      session[:user_id] = @user.id
+
+      render json: { user: UserSerializer.new(@user) }, status: :created, location: @user
     else
       render json: @user.errors.full_messages, status: :unprocessable_entity
     end
@@ -29,7 +31,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   def update
     if @user.update(user_params)
-      render json: @user
+      render json: UserSerializer.new(@user)
     else
       render json: @user.errors.full_messages, status: :unprocessable_entity
     end

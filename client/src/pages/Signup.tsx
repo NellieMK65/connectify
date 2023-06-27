@@ -4,14 +4,16 @@ import {
 	Box,
 	Container,
 	Grid,
-	Link,
+	Link as MuiLink,
 	TextField,
 	Typography,
 } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../context';
 
 const userSchema = Yup.object().shape({
 	first_name: Yup.string().required('First name is required'),
@@ -31,6 +33,8 @@ const userSchema = Yup.object().shape({
 
 export const Signup = () => {
 	const [error, setError] = useState('');
+
+	const { login } = useContext(AuthContext);
 
 	const formik = useFormik({
 		initialValues: {
@@ -60,6 +64,7 @@ export const Signup = () => {
 					setError(data[0]);
 				} else {
 					// success
+					login(data.user);
 				}
 			} catch (error) {
 				console.log('Errors', error);
@@ -100,7 +105,6 @@ export const Signup = () => {
 									fullWidth
 									id="firstName"
 									label="First Name"
-									autoFocus
 									onChange={formik.handleChange}
 									onBlur={formik.handleBlur}
 									error={
@@ -222,9 +226,13 @@ export const Signup = () => {
 						</LoadingButton>
 						<Grid container justifyContent="flex-end">
 							<Grid item>
-								<Link href="#" variant="body2">
+								<MuiLink
+									to="/login"
+									variant="body2"
+									component={Link}
+								>
 									Already have an account? Sign in
-								</Link>
+								</MuiLink>
 							</Grid>
 						</Grid>
 					</Box>

@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { AuthProvider } from './context';
 
 const defaultTheme = createTheme();
 
@@ -16,7 +17,9 @@ root.render(
 		<ThemeProvider theme={defaultTheme}>
 			<CssBaseline />
 			<BrowserRouter>
-				<App />
+				<AuthProvider>
+					<App />
+				</AuthProvider>
 			</BrowserRouter>
 		</ThemeProvider>
 	</React.StrictMode>
