@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show update destroy ]
+  skip_before_action :authorized, only: [:create]
   wrap_parameters :user, include: %i[first_name last_name phone email username bio avatar password password_confirmation]
 
   # GET /users

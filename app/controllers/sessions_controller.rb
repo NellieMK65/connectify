@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
+  skip_before_action :authorized, only: [:create]
   wrap_parameters :user, include: %i[username password]
 
   def create
