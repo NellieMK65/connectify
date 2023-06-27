@@ -21,7 +21,7 @@ interface HeaderProps {
 export const Header = (props: HeaderProps) => {
 	const { sections, title } = props;
 
-	const { isAuthenticated } = useContext(AuthContext);
+	const { isAuthenticated, logout } = useContext(AuthContext);
 
 	return (
 		<>
@@ -40,7 +40,7 @@ export const Header = (props: HeaderProps) => {
 				<IconButton>{/* <SearchIcon /> */}</IconButton>
 				<Stack direction={'row'} spacing={1}>
 					{isAuthenticated ? (
-						<Button>Logout</Button>
+						<Button onClick={logout}>Logout</Button>
 					) : (
 						<>
 							<Link to={'/login'}>

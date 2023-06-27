@@ -19,6 +19,7 @@ interface ContextState {
 	isAuthenticated: boolean;
 	user: User | null;
 	login: (user: User) => void;
+	logout: () => void;
 }
 
 interface Props {
@@ -31,6 +32,7 @@ export const AuthContext = createContext<ContextState>({
 	isAuthenticated: false,
 	user: null,
 	login: () => null,
+	logout: () => null,
 });
 
 export const AuthProvider = ({ children }: Props) => {
@@ -46,6 +48,19 @@ export const AuthProvider = ({ children }: Props) => {
 		navigate('/');
 	};
 
+	const logout = () => {
+		fetch(`/sessions/${user?.id}`, {
+			method: 'DELETE',
+			credentials: 'include',
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				localStorage.removeItem('user');
+				setUser(null);
+				setIsAuthenticated(false);
+			});
+	};
+
 	useEffect(() => {
 		const user = localStorage.getItem('user');
 
@@ -56,7 +71,7 @@ export const AuthProvider = ({ children }: Props) => {
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ isAuthenticated, user, login }}>
+		<AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);
