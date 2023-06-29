@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // some ts stuff - ignore
 interface User {
@@ -40,12 +40,15 @@ export const AuthProvider = ({ children }: Props) => {
 	const [user, setUser] = useState<User | null>(null);
 
 	const navigate = useNavigate();
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const returnUrl = searchParams.get('returnUrl');
 
 	const login = (user: User) => {
 		localStorage.setItem('user', JSON.stringify(user));
 		setUser(user);
 		setIsAuthenticated(true);
-		navigate('/');
+		navigate(returnUrl ? returnUrl : '/');
 	};
 
 	const logout = () => {

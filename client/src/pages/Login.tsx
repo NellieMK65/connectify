@@ -8,11 +8,11 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FormikProvider, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { LoadingButton } from '@mui/lab';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../context';
 
 const loginSchema = Yup.object().shape({
@@ -22,15 +22,8 @@ const loginSchema = Yup.object().shape({
 
 export const Login = () => {
 	const [error, setError] = useState('');
-	const navigate = useNavigate();
 
-	const { isAuthenticated, login } = useContext(AuthContext);
-
-	useEffect(() => {
-		if (isAuthenticated) {
-			navigate('/');
-		}
-	}, [isAuthenticated]);
+	const { login } = useContext(AuthContext);
 
 	const formik = useFormik({
 		initialValues: {

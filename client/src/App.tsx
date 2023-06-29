@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import { Login, Profile, Signup } from './pages';
-import { Layout } from './components';
+import { AuthGuard, Layout } from './components';
 
 function App() {
 	return (
@@ -11,9 +11,9 @@ function App() {
 			<Route
 				path="/profile"
 				element={
-					<Layout>
+					<AuthGuard>
 						<Profile />
-					</Layout>
+					</AuthGuard>
 				}
 			/>
 		</Routes>
