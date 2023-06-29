@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { Login, Signup } from './pages';
+import { Login, Profile, Signup } from './pages';
 import { Layout } from './components';
 
 function App() {
@@ -8,6 +8,14 @@ function App() {
 			<Route path="/" element={<Layout>Home</Layout>} />
 			<Route path="/signup" element={<Signup />} />
 			<Route path="/login" element={<Login />} />
+			<Route
+				path="/profile"
+				element={
+					<Layout>
+						<Profile />
+					</Layout>
+				}
+			/>
 		</Routes>
 	);
 }

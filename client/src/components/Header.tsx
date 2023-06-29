@@ -2,9 +2,9 @@ import {
 	Toolbar,
 	Button,
 	Typography,
-	IconButton,
 	Link as MuiLink,
 	Stack,
+	Avatar,
 } from '@mui/material';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
@@ -37,10 +37,14 @@ export const Header = (props: HeaderProps) => {
 				>
 					{title}
 				</Typography>
-				<IconButton>{/* <SearchIcon /> */}</IconButton>
-				<Stack direction={'row'} spacing={1}>
+				<Stack direction={'row'} spacing={2}>
 					{isAuthenticated ? (
-						<Button onClick={logout}>Logout</Button>
+						<>
+							<Link to="/profile">
+								<Avatar />
+							</Link>
+							<Button onClick={logout}>Logout</Button>
+						</>
 					) : (
 						<>
 							<Link to={'/login'}>
